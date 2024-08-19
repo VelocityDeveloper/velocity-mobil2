@@ -1,19 +1,5 @@
 <?php
-
-/**
- * The main template file
- *
- * This is the most generic template file in a WordPress theme
- * and one of the two required files for a theme (the other being style.css).
- * It is used to display a page when nothing more specific matches a query.
- * E.g., it puts together the home page when no home.php file exists.
- * Learn more: http://codex.wordpress.org/Template_Hierarchy
- *
- * @package justg
- */
-
-// Exit if accessed directly.
-defined('ABSPATH') || exit;
+/* Template Name: Home Template */ 
 
 get_header();
 $container = velocitytheme_option('justg_container_type', 'container');
@@ -23,7 +9,6 @@ $kategori = velocitytheme_option('category_home');
 ?>
 
 <div class="wrapper p-0" id="index-wrapper">
-
     <div id="carouselExampleInterval" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-inner">
         <?php $i = 0;
@@ -47,22 +32,23 @@ $kategori = velocitytheme_option('category_home');
     <div class="<?php echo esc_attr($container); ?> p-3" id="content" tabindex="-1">
             
     <main class="site-main col order-2" id="main">
+
         <div class="produk-content">
+        <?php
+            $args = array(
+                'post_type' => 'produk', // Ganti 'produk' dengan nama post type custom Anda
+                'posts_per_page' => 9, // Jumlah post yang ingin ditampilkan
+                'order' => 'DESC',
+                'orderby' => 'date',
+            );
+            
+            // Membuat instance WP_Query
+            $product_query = new WP_Query($args);
+            
+            // Loop untuk menampilkan post
+            if ($product_query->have_posts()) { ?>
+        
             <h3 class="px-2 text-dark h5">Daftar Produk</h3>
-            <?php
-                $args = array(
-                    'post_type' => 'produk', // Ganti 'produk' dengan nama post type custom Anda
-                    'posts_per_page' => 9, // Jumlah post yang ingin ditampilkan
-                    'order' => 'DESC',
-                    'orderby' => 'date',
-                );
-                
-                // Membuat instance WP_Query
-                $product_query = new WP_Query($args);
-                
-                // Loop untuk menampilkan post
-                if ($product_query->have_posts()) { ?>
-                
                 <div class="row m-0">
                 <?php
                     // Start the loop.
@@ -74,12 +60,12 @@ $kategori = velocitytheme_option('category_home');
                 <div class="more-post text-center">
                     <a class="btn btn-primary fs-6 rounded-1" href="<?php echo get_home_url();?>/produk">Selengkapnya</a>
                 </div>
-            <?php } else {
-                get_template_part( 'loop-templates/content', 'none');
-            }?>
-            
-        </div>
         
+        <?php } else {
+                the_content();
+            }?>
+        </div>
+
         <?php if($single_simulasikredit == 'on'): ?>
             <div class="card my-3">
                 <h4 class="text-dark h5 card-header">Simulasi kredit</h4>

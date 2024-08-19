@@ -134,6 +134,28 @@ function velocitychild_theme_setup() {
             ]
         );
 
+        ///Section Category
+        Kirki::add_section('section_category', [
+			'panel'    => 'panel_mobil',
+			'title'    => __('Kategori Home', 'justg'),
+			'priority' => 10,
+		]);
+
+        //field section
+        new Kirki\Field\Select(
+            [
+                'settings'    => 'category_home',
+                'label'       => __( 'Kategori Post Home', 'justg' ),
+                'section'     => 'section_category',
+                'default'     => '',
+                'priority'    => 10,
+                'multiple'    => 1,
+                'placeholder' => __( 'Pilih Kategori', 'justg' ),
+                'choices'     => Kirki\Util\Helper::get_terms( array('taxonomy' => 'category') ),
+            ]
+        );
+
+
 
         ///Section Dealer
 		Kirki::add_section('section_dealer', [
@@ -291,6 +313,55 @@ function justg_before_wrapper_content() {
 add_action('justg_after_wrapper_content', 'justg_after_wrapper_content');
 function justg_after_wrapper_content() {
 	echo '</div>';
+}
+
+if (!function_exists('justg_right_sidebar_check')) {
+    /**
+     * Right sidebar check
+     * 
+     */
+    function justg_right_sidebar_check()
+    {
+        $sidebar_pos            = velocitytheme_option('justg_sidebar_position', 'right');
+        $pages_sidebar_pos      = velocitytheme_option('justg_pages_sidebar_position');
+        $singular_sidebar_pos   = velocitytheme_option('justg_blogs_sidebar_position');
+        $archives_sidebar_pos   = velocitytheme_option('justg_archives_sidebar_position');
+        $shop_sidebar_pos       = velocitytheme_option('justg_shop_sidebar_position', 'default');
+
+        if ($sidebar_pos === 'disable') {
+            return;
+        }
+
+        if (is_page() && !in_array($pages_sidebar_pos, array('', 'default'))) {
+            $sidebar_pos = $pages_sidebar_pos;
+        }
+
+        if (is_singular() && !in_array($singular_sidebar_pos, array('', 'default'))) {
+            $sidebar_pos = $singular_sidebar_pos;
+        }
+
+        if (is_archive() && !in_array($archives_sidebar_pos, array('', 'default'))) {
+            $sidebar_pos = $archives_sidebar_pos;
+        }
+
+        if (is_singular('fl-builder-template')) {
+            return;
+        }
+
+        if ('right' === $sidebar_pos) {
+            if (!is_active_sidebar('main-sidebar') && !has_action('justg_before_main_sidebar') && !has_action('justg_after_main_sidebar')) {
+                return;
+            }
+
+        ?>
+            <div class="widget-area right-sidebar col-sm-4 order-3" id="right-sidebar" role="complementary">
+                <?php do_action('justg_before_main_sidebar'); ?>
+                <?php dynamic_sidebar('main-sidebar'); ?>
+                <?php do_action('justg_after_main_sidebar'); ?>
+            </div>
+            <?php
+        }
+    }
 }
 
 function velocitytoko_display_recaptcha() {

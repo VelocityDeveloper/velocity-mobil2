@@ -1,8 +1,5 @@
 <?php /* Template Name: Pricelist */ 
 get_header();
-?>
-
-<?php
 $container   = get_theme_mod( 'just_f_container_type' );
 ?>
 
