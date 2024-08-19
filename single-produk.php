@@ -14,6 +14,7 @@ $nowa = velocitytheme_option('nowa');
     }
 $single_simulasikredit   = velocitytheme_option('single_simulasi');
 $imgUrl = wp_get_attachment_image_url(velocitytheme_option('foto_sales'), 'full');
+$hargas = get_post_meta($post->ID, 'opsiharga',true);
 ?>
 
 <div class="container p-3 bg-white" id="single-wrapper">
@@ -33,6 +34,7 @@ $imgUrl = wp_get_attachment_image_url(velocitytheme_option('foto_sales'), 'full'
                     	<?php echo the_content(); ?>
 		            </div>
 		        </div>
+                <?php if($hargas) :?>
 			    <h4 class="text-dark h5">Pricelist</h4>
                 <div class="">
                     <table class="table">
@@ -44,21 +46,21 @@ $imgUrl = wp_get_attachment_image_url(velocitytheme_option('foto_sales'), 'full'
                         </thead>
                         <tbody>
                             <?php
-                            $hargas = get_post_meta($post->ID, 'opsiharga',true);
-                            foreach($hargas as $harga){
-                                echo '<tr>';
-                                    echo '<td>';
-                                        echo explode('=', $harga)[0];
-                                    echo '</td>';
-                                    echo '<td>';
-                                        echo 'Rp '.number_format(preg_replace("/[^0-9]/", "", explode('=', $harga)[1]),'2',',','.').'';
-                                    echo '</td>';
-                                echo '</tr>';
-                            }
+                                foreach($hargas as $harga){
+                                    echo '<tr>';
+                                        echo '<td>';
+                                            echo explode('=', $harga)[0];
+                                        echo '</td>';
+                                        echo '<td>';
+                                            echo 'Rp '.number_format(preg_replace("/[^0-9]/", "", explode('=', $harga)[1]),'2',',','.').'';
+                                        echo '</td>';
+                                    echo '</tr>';
+                                }
                             ?>
                         </tbody>
                     </table>
                 </div>
+                <?php endif;?>
 		    </div>
 		    <div class="col-md-4 text-center">
 		        <div class="card mb-3 bg-light">

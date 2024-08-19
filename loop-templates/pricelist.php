@@ -4,7 +4,7 @@
  *
  * @package velocity
  */
-
+$hargas = get_post_meta($post->ID, 'opsiharga',true);
 ?>
 
 <article <?php post_class('card container mb-3 px-0'); ?> id="post-<?php the_ID(); ?>">
@@ -18,7 +18,6 @@
         	</a>
         </div>
         <div class="col-md-8">
-
             <table class="table">
                 <thead class="bg-colortheme text-white">
                 <tr>
@@ -28,17 +27,21 @@
                 </thead>
                 <tbody>
                     <?php
-                    $hargas = get_post_meta($post->ID, 'opsiharga',true);
-                    foreach($hargas as $harga){
-                        echo '<tr>';
-                            echo '<td>';
-                                echo explode('=', $harga)[0];
-                            echo '</td>';
-                            echo '<td>';
-                                echo 'Rp '.number_format(preg_replace("/[^0-9]/", "", explode('=', $harga)[1]),'2',',','.').'';
-                            echo '</td>';
-                        echo '</tr>';
+                    if($hargas) {
+                        foreach($hargas as $harga){
+                            echo '<tr>';
+                                echo '<td>';
+                                    echo explode('=', $harga)[0];
+                                echo '</td>';
+                                echo '<td>';
+                                    echo 'Rp '.number_format(preg_replace("/[^0-9]/", "", explode('=', $harga)[1]),'2',',','.').'';
+                                echo '</td>';
+                            echo '</tr>';
+                        }
+                    } else {
+                        echo '<tr><td colspan="2">Tidak Ada Data.</td></tr>';
                     }
+                    
                     ?>
                 </tbody>
             </table>

@@ -18,8 +18,8 @@
     		'</a></h2>' ); ?>
         <?php
         $harga = get_post_meta($post->ID, 'opsiharga', true);
-        echo '<span class="position-absolute badge text-bg-info text-light">Tersedia '.count($harga).' tipe</span>';
         if($harga){
+            echo '<span class="position-absolute badge text-bg-info text-light">Tersedia '.count($harga).' tipe</span>';
             echo '<div class="text-center">';
                 echo '<small>Mulai dari</small><br>';
                 echo 'Rp '.number_format(preg_replace("/[^0-9]/", "", explode('=', $harga[0])[1]),'2',',','.').'-' ;

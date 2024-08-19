@@ -107,7 +107,9 @@ function custom_columns_data( $column, $post_id ) {
         break;
     case 'varian':
         $opsiharga = get_post_meta($post_id, 'opsiharga',true);
-        echo count($opsiharga).' Opsi';
+        if($opsiharga) {
+            echo count($opsiharga).' Opsi';
+        } else {echo '0 Opsi';}
         break;
     case 'hit' :
         if(!function_exists( 'WP_Statistics' ) ) {
