@@ -17,20 +17,21 @@ defined('ABSPATH') || exit;
 
 get_header();
 $container = velocitytheme_option('justg_container_type', 'container');
-$single_simulasikredit   = velocitytheme_option('single_simulasi');
-$sliders = velocitytheme_option('slider_repeat');
+$home_simulasikredit = velocity_mobil2_simulasi_aktif('home_simulasi');
+$sliders = velocity_mobil2_slider();
 $kategori = velocitytheme_option('category_home');
 ?>
 
 <div class="wrapper p-0" id="index-wrapper">
 
+    <?php if ($sliders) : ?>
     <div id="carouselExampleInterval" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-inner">
         <?php $i = 0;
             foreach ($sliders as $slider) : $i++;
             $active = $i==1 ? 'active' : '';?>
                 <div class="carousel-item <?php echo $active;?>" data-bs-interval="3000">
-                    <img class="ratio ratio-16x9" src="<?php echo $slider['imgslider']; ?>" alt="...">
+                    <img class="ratio ratio-16x9" src="<?php echo esc_url($slider); ?>" alt="...">
                 </div>
             <?php endforeach; ?>
         </div>
@@ -43,6 +44,7 @@ $kategori = velocitytheme_option('category_home');
             <span class="visually-hidden">Next</span>
         </button>
     </div>
+    <?php endif; ?>
 
     <div class="<?php echo esc_attr($container); ?> p-3" id="content" tabindex="-1">
             
@@ -80,7 +82,7 @@ $kategori = velocitytheme_option('category_home');
             
         </div>
         
-        <?php if($single_simulasikredit == 'on'): ?>
+        <?php if ($home_simulasikredit) : ?>
             <div class="card my-3">
                 <h4 class="text-dark h5 card-header">Simulasi kredit</h4>
                 <div class="card-body">
@@ -91,7 +93,9 @@ $kategori = velocitytheme_option('category_home');
 
         <div class="blog-content">
             <?php $category = get_category($kategori);?>
-            <h3 class="px-2 text-dark h5"><?php echo $category->name;?></h3>
+            <?php if ($category instanceof WP_Term) : ?>
+            <h3 class="px-2 text-dark h5"><?php echo esc_html($category->name); ?></h3>
+            <?php endif; ?>
             <?php
                 $args = array(
                     'post_type' => 'post', // Ganti 'produk' dengan nama post type custom Anda

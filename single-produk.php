@@ -12,7 +12,7 @@ $nowa = velocitytheme_option('nowa');
     } else if (substr($nowa, 0, 1) === '+') {
         $nowa    = '' . substr($nowa, 1);
     }
-$single_simulasikredit   = velocitytheme_option('single_simulasi');
+$single_simulasikredit = velocity_mobil2_simulasi_aktif('single_simulasi');
 $imgUrl = wp_get_attachment_image_url(velocitytheme_option('foto_sales'), 'full');
 $hargas = get_post_meta($post->ID, 'opsiharga',true);
 ?>
@@ -97,7 +97,7 @@ $hargas = get_post_meta($post->ID, 'opsiharga',true);
 		    </div>
 		</div>
 		
-    <?php if($single_simulasikredit == 'on'): ?>
+    <?php if ($single_simulasikredit) : ?>
 		<div class="card my-3">
 		    <h4 class="text-dark h5 card-header">Simulasi kredit</h4>
 		    <div class="card-body">

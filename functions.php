@@ -21,6 +21,7 @@
 $inc = get_stylesheet_directory() . '/inc';
 $includes = [
     'function-child.php',
+    'customizer.php',
     'ajax-child.php',
 	'enqueue.php',
     'widget-post.php',
