@@ -17,7 +17,7 @@
     	<?php the_title( sprintf( '<h2 class="entry-title h6 text-center"><a class="text-colortheme" href="%s" rel="bookmark">', esc_url( get_permalink() ) ),
     		'</a></h2>' ); ?>
         <?php
-        $harga = get_post_meta($post->ID, 'opsiharga', true);
+        $harga = velocity_mobil2_opsiharga($post->ID);
         if($harga){
             echo '<span class="position-absolute badge text-bg-info text-light">Tersedia '.count($harga).' tipe</span>';
             echo '<div class="text-center">';

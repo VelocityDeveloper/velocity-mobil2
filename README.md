@@ -23,3 +23,6 @@ Tanpa plugin Kirki. Pengaturan ada di Appearance > Customize:
 - Setting Mobil > Simulasi Kredit: tampilkan simulasi di halaman depan dan di halaman produk.
 
 Nama pengaturan sama dengan versi Kirki (`color_theme`, `background_themewebsite`, `slider_repeat`, `category_home`, `foto_sales`, `nama_sales`, `notelp`, `nowa`, `pesan_simulasi`, `home_simulasi`, `single_simulasi`), jadi situs yang update dari 1.0.x tidak kehilangan pengaturan.
+
+### Detail Produk
+Tanpa plugin Meta Box (sejak 1.2.0). Kotak **Detail Produk** di editor produk berisi daftar `Tipe = Harga` (satu per baris, tombol **+ Tambah Tipe**). Data disimpan di meta `opsiharga` sebagai array, sama dengan versi Meta Box, jadi harga produk lama tetap terbaca.

@@ -4,7 +4,7 @@
  *
  * @package velocity
  */
-$hargas = get_post_meta($post->ID, 'opsiharga',true);
+$hargas = velocity_mobil2_opsiharga($post->ID);
 ?>
 
 <article <?php post_class('card container mb-3 px-0'); ?> id="post-<?php the_ID(); ?>">

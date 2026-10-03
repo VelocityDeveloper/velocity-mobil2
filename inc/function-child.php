@@ -19,9 +19,6 @@ function velocitychild_theme_setup() {
     remove_action('justg_do_footer', 'justg_the_footer_content');
     remove_action('justg_do_footer', 'justg_the_footer_close');
     remove_theme_support('widgets-block-editor');
-
-    //Inisialisasi theme child
-    add_action('tgmpa_register', 'recmetabox_plugins');
 }
 
 ///remove breadcrumbs
@@ -165,30 +162,4 @@ function vdberita_limit_text($text, $limit)
         $text  = substr($text, 0, $pos[$limit]) . '...';
     }
     return $text;
-}
-
-function recmetabox_plugins() {
-    $plugins = array(
-        // Include Metabox plugin
-        array(
-            'name'     => 'Metabox',
-            'slug'     => 'meta-box',
-            'required' => true,
-        ),
-        // Tambahkan plugin wajib lainnya di sini
-    );
-    $config = array(
-        'id'           => 'tgmpa',
-        'default_path' => '',
-        'menu'         => 'tgmpa-install-plugins',
-        'parent_slug'  => 'themes.php',
-        'capability'   => 'edit_theme_options',
-        'has_notices'  => true,
-        'dismissable'  => true,
-        'dismiss_msg'  => '',
-        'is_automatic' => false,
-        'message'      => '',
-    );
-
-    tgmpa( $plugins, $config );
 }

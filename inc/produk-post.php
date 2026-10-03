@@ -40,34 +40,87 @@ function ak_add_produk()
     );
 }
 
-add_filter( 'rwmb_meta_boxes', 'just_f_register_meta_boxes' );
-function just_f_register_meta_boxes( $meta_boxes ) {
-    $meta_boxes[] = array(
-        'id'                => 'detail',
-        'title'             => 'Detail Produk',
-        'post_types'        => 'produk',
-        'context'           => 'normal',
-        'priority'          => 'high',
-
-        'fields' => array(
-			array(
-				'type'      => 'heading',
-				'name'      => esc_html__( 'Pricelist', 'velocity' ),
-				'desc'      => esc_html__( '', 'velocity' ),
-			),
-			array(
-                'name'      => 'Type = Harga',
-                'desc'      => 'Tuliskan Type = harga<br>Contoh: INNOVA 2.0 G M/T=309.300.000',
-                'id'        => 'opsiharga',
-                'type'      => 'text',
-                'placeholder'      => 'Contoh: INNOVA 2.0 G M/T=309.300.000',
-                'clone'     => 'true',
-            ),
-        )
-    );
-
-    return $meta_boxes;
+/**
+ * Opsi harga produk ("Tipe = Harga") yang terisi.
+ *
+ * Disimpan sebagai satu array di meta opsiharga, sama dengan field clone
+ * Meta Box dulu, jadi data lama tetap terbaca. Baris tanpa "=" dilewati.
+ */
+function velocity_mobil2_opsiharga($post_id)
+{
+    $opsi = get_post_meta($post_id, 'opsiharga', true);
+    $hasil = [];
+    foreach (is_array($opsi) ? $opsi : [] as $baris) {
+        if (is_string($baris) && strpos($baris, '=') !== false) {
+            $hasil[] = $baris;
+        }
+    }
+    return $hasil;
 }
+
+// Kotak Detail Produk bawaan WordPress (pengganti plugin Meta Box)
+add_action('add_meta_boxes_produk', function () {
+    add_meta_box('detail', 'Detail Produk', 'velocity_mobil2_kotak_detail', 'produk', 'normal', 'high');
+});
+
+function velocity_mobil2_kotak_detail($post)
+{
+    $opsi = get_post_meta($post->ID, 'opsiharga', true);
+    $opsi = array_values(array_filter(is_array($opsi) ? $opsi : [], 'strlen'));
+    if (!$opsi) {
+        $opsi = [''];
+    }
+    wp_nonce_field('velocity_mobil2_opsiharga', 'velocity_mobil2_opsiharga_nonce');
+    ?>
+    <h4 style="margin:0 0 4px">Pricelist</h4>
+    <p class="description" style="margin-top:0">Tuliskan Type = Harga, satu tipe per baris.<br>Contoh: INNOVA 2.0 G M/T=309.300.000</p>
+    <div id="opsiharga-daftar">
+        <?php foreach ($opsi as $baris) : ?>
+            <p class="opsiharga-baris" style="display:flex;gap:6px;margin:0 0 6px">
+                <input type="text" class="widefat" name="opsiharga[]" value="<?php echo esc_attr($baris); ?>" placeholder="Contoh: INNOVA 2.0 G M/T=309.300.000">
+                <button type="button" class="button opsiharga-hapus" aria-label="Hapus baris">&times;</button>
+            </p>
+        <?php endforeach; ?>
+    </div>
+    <button type="button" class="button" id="opsiharga-tambah">+ Tambah Tipe</button>
+    <script>
+    (function () {
+        var daftar = document.getElementById('opsiharga-daftar');
+        document.getElementById('opsiharga-tambah').addEventListener('click', function () {
+            var baris = daftar.querySelector('.opsiharga-baris').cloneNode(true);
+            baris.querySelector('input').value = '';
+            daftar.appendChild(baris);
+            baris.querySelector('input').focus();
+        });
+        daftar.addEventListener('click', function (e) {
+            if (!e.target.classList.contains('opsiharga-hapus')) return;
+            var baris = e.target.closest('.opsiharga-baris');
+            if (daftar.querySelectorAll('.opsiharga-baris').length > 1) {
+                baris.remove();
+            } else {
+                baris.querySelector('input').value = '';
+            }
+        });
+    })();
+    </script>
+    <?php
+}
+
+add_action('save_post_produk', function ($post_id) {
+    if (!isset($_POST['velocity_mobil2_opsiharga_nonce'])
+        || !wp_verify_nonce(sanitize_key($_POST['velocity_mobil2_opsiharga_nonce']), 'velocity_mobil2_opsiharga')
+        || (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+        || !current_user_can('edit_post', $post_id)) {
+        return;
+    }
+    $masuk = isset($_POST['opsiharga']) ? (array) wp_unslash($_POST['opsiharga']) : [];
+    $opsi = array_values(array_filter(array_map('sanitize_text_field', $masuk), 'strlen'));
+    if ($opsi) {
+        update_post_meta($post_id, 'opsiharga', $opsi);
+    } else {
+        delete_post_meta($post_id, 'opsiharga');
+    }
+});
 
 //Displaying kategori-produk Columns
 add_filter( 'manage_taxonomies_for_produk_columns', 'kategori_produk_columns' );
@@ -106,7 +159,7 @@ function custom_columns_data( $column, $post_id ) {
         echo '<img style="width: 75px;height: auto;" src="'.get_the_post_thumbnail_url($post_id ,'thumbnail').'" alt="" />';
         break;
     case 'varian':
-        $opsiharga = get_post_meta($post_id, 'opsiharga',true);
+        $opsiharga = velocity_mobil2_opsiharga($post_id);
         if($opsiharga) {
             echo count($opsiharga).' Opsi';
         } else {echo '0 Opsi';}

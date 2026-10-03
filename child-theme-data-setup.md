@@ -2,8 +2,8 @@
 
 ## Plugin
 
-- Wajib aktif: **Meta Box** (field harga produk) dan **Velocity Addons**.
-- Plugin **Kirki tidak diperlukan** sejak versi 1.1.0.
+- Wajib aktif: **Velocity Addons**.
+- Plugin **Kirki** (sejak 1.1.0) dan **Meta Box** (sejak 1.2.0) **tidak diperlukan**; kotak Detail Produk sudah bawaan tema.
 
 ## Customize
 
@@ -27,7 +27,7 @@
 ## Produk
 
 - Isi produk di menu **Produk** (post type `produk`): judul = nama mobil, gambar unggulan, deskripsi, dan **Kategori Produk** (mis. merek).
-- Pada kotak **Detail Produk › Type = Harga**, isi satu baris per tipe dengan format `Tipe = Harga`, contoh: `INNOVA 2.0 G M/T = 309.300.000`.
+- Pada kotak **Detail Produk › Pricelist** (panel Meta Boxes di bawah editor), isi satu baris per tipe dengan format `Tipe = Harga`, contoh: `INNOVA 2.0 G M/T = 309.300.000`; tambah baris dengan tombol **+ Tambah Tipe**.
   - Isian ini dipakai untuk harga "Mulai dari", tabel harga di halaman produk, halaman Pricelist, dan pilihan tipe di Simulasi Kredit.
   - Setiap produk **minimal 1 tipe harga**; produk tanpa harga tidak punya pilihan tipe di Simulasi Kredit.
 - Minimal **6 produk** agar beranda (9 produk terbaru) dan widget sidebar terlihat penuh.

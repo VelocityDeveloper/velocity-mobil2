@@ -14,7 +14,7 @@ $nowa = velocitytheme_option('nowa');
     }
 $single_simulasikredit = velocity_mobil2_simulasi_aktif('single_simulasi');
 $imgUrl = wp_get_attachment_image_url(velocitytheme_option('foto_sales'), 'full');
-$hargas = get_post_meta($post->ID, 'opsiharga',true);
+$hargas = velocity_mobil2_opsiharga($post->ID);
 ?>
 
 <div class="container p-3 bg-white" id="single-wrapper">

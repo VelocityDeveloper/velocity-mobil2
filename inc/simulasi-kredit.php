@@ -30,10 +30,7 @@
                     <?php
                     echo '<option value="">-Pilih Tipe-</option>';
                         foreach($posts as $post){
-                            $hargas = get_post_meta($post->ID, 'opsiharga',true);
-                            if (!is_array($hargas)) {
-                                continue;
-                            }
+                            $hargas = velocity_mobil2_opsiharga($post->ID);
                             foreach($hargas as $harga){
                                 echo '<option class="'.$post->ID.'" value="'.preg_replace("/[^0-9]/", "", explode('=', $harga)[1]).'">'.explode('=', $harga)[0].' - Rp '.number_format(preg_replace("/[^0-9]/", "", explode('=', $harga)[1]),'2',',','.').'-</option>';
                             }
