@@ -21,6 +21,12 @@ function produk_post_type()
     ]);
 }
 
+// Produk selalu memakai editor blok (Gutenberg), walau "Disable Gutenberg" di
+// Velocity Addons aktif untuk post & page. Prioritas 20 = sesudah filter addon.
+add_filter('use_block_editor_for_post_type', function ($pakai, $post_type) {
+    return 'produk' === $post_type ? true : $pakai;
+}, 20, 2);
+
 add_action('init', 'ak_add_produk');
 function ak_add_produk()
 {

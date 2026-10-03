@@ -27,6 +27,7 @@
 ## Produk
 
 - Isi produk di menu **Produk** (post type `produk`): judul = nama mobil, gambar unggulan, deskripsi, dan **Kategori Produk** (mis. merek).
+- Editor produk selalu **Gutenberg (editor blok)**, walau **Disable Gutenberg** di Velocity Addons aktif (opsi itu tetap berlaku untuk post & page).
 - Pada kotak **Detail Produk › Pricelist** (panel Meta Boxes di bawah editor), isi satu baris per tipe dengan format `Tipe = Harga`, contoh: `INNOVA 2.0 G M/T = 309.300.000`; tambah baris dengan tombol **+ Tambah Tipe**.
   - Isian ini dipakai untuk harga "Mulai dari", tabel harga di halaman produk, halaman Pricelist, dan pilihan tipe di Simulasi Kredit.
   - Setiap produk **minimal 1 tipe harga**; produk tanpa harga tidak punya pilihan tipe di Simulasi Kredit.

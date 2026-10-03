@@ -26,3 +26,5 @@ Nama pengaturan sama dengan versi Kirki (`color_theme`, `background_themewebsite
 
 ### Detail Produk
 Tanpa plugin Meta Box (sejak 1.2.0). Kotak **Detail Produk** di editor produk berisi daftar `Tipe = Harga` (satu per baris, tombol **+ Tambah Tipe**). Data disimpan di meta `opsiharga` sebagai array, sama dengan versi Meta Box, jadi harga produk lama tetap terbaca.
+
+Editor produk selalu memakai Gutenberg (editor blok), walau opsi **Disable Gutenberg** di Velocity Addons aktif; post & page tetap mengikuti opsi itu.
